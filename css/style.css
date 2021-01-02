@@ -1,0 +1,517 @@
+@charset "utf-8";
+
+/* -----ここから下に記述してください----- */
+html {
+    visibility: hidden;
+}
+html.wf-active {
+    visibility: visible;
+}
+
+body{
+    color:#333;
+}
+a{
+    text-decoration: none;
+}
+img{
+    width: 100%;
+    display: block;
+}
+@keyframes loader {
+    from {transform: rotate(0deg);}
+    to {
+        transform: rotate(360deg);
+        display: none;
+    }
+    /* 一回転させて消える */
+}
+@keyframes loader-reverse {
+    from {transform: rotate(360deg);}
+    to {
+        transform: rotate(-360deg);
+        display: none;
+    }
+    /* 一回転させて消えるloaderの逆回転 */
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        z-index: -1;
+    }
+    /* 透過し背面へ移動 */
+}
+
+.contents{
+    /* サイドバーと写真を横並び */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Gentium Basic';
+    /* グーグルフォント */
+}
+.sideber{
+    position: fixed;
+    /* サイドバーは左に固定する */
+    top:0;
+    left:0;
+    width: 20%;
+    height: 100vh;
+    padding-top:30px;
+    text-align: center;
+}
+.site-name a{
+    font-size: 46px;
+    font-weight: bold;
+    font-family: 'EB Garamond';
+    background: linear-gradient( to right, rgb(75, 116, 250) 25%, rgb(192, 38, 223) 75% );
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+    /* background-clip: text;は背景が前景のテキストで切り取る*/
+}
+.logo{
+    width:40px;
+    margin:0 auto;
+}
+.sns-link{
+    position: absolute;
+    bottom:60px;
+    left:50%;
+    transform:translateX(-50%);
+    display: flex;
+}
+.sns-link li{
+    width: 25px;
+}
+.sns-link li:nth-child(2){
+    margin:0 10px;
+}
+/* 二番目だけ左右余白 */
+
+.nav{
+    /* navを中央に */
+    position: absolute;
+    top:25vh;
+    left:50%;
+    transform: translateX(-50%);
+    width:100%;
+}
+.nav a{
+    display: block;
+    color:#333;
+    font-size:22px;
+    margin-bottom:30px;
+}
+/* メイン */
+.main{
+    position: relative;
+    width:100%;
+    height: 100vh;
+    margin-left:20%;
+}
+.thumbnail{
+    display: flex;
+    flex-wrap: wrap;
+}
+.thumbnail li{
+    position: relative;
+    width: calc(100% / 4);
+    height:50vh;
+    /* heightを画面半分に */
+    cursor: pointer;
+    overflow: hidden;
+    /* hiddenがないとはみ出る */
+}
+.thumbnail li a{
+    position: relative;
+    display: block;
+    width: 100%;
+    height:100%;
+    cursor: pointer;
+    z-index: 1;
+}
+.thumbnail li.is-active a:before,
+.thumbnail li a:before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    transition: all 0.5s;
+    opacity: 1;
+    z-index: 1;
+}
+.thumbnail li.is-active a:before,
+.thumbnail li:hover a:before{
+    opacity: 0;
+    /* beforeで囲っている幕を透過 */
+}
+
+.thumbnail li.is-active img,
+.thumbnail li:hover img{
+    transform: scale(1.1,1.1);
+    /* ホバー時に画像拡大 */
+}
+
+.thumbnail li img{
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.8s;
+    transform: scale(1,1);
+    backface-visibility: hidden;
+}
+
+
+
+/* place */
+.place{
+    padding:30px;
+    height: 100vh;
+    display: flex;
+    /* 画像と説明を横並び */
+}
+.place_img{
+    width: 45%;
+    height:100%;
+    /* 画像を横幅45％に */
+}
+.place_img img{
+    object-fit: cover;
+    height: 100%;
+}
+.place_info{
+    margin-top:20px;
+    width: calc(100% - 45%);
+    /* calcスペース注意（なきゃダメ） */
+    padding:0% 7% 3% 7%;
+}
+.place_title{
+    font-size:40px;
+    text-align: center;
+    margin-bottom: 5%;
+}
+.place_title span{
+    padding-bottom: 5px;
+    border-bottom: 2px solid #c026df;
+}
+.place_item{
+    margin-bottom: 10%;
+    max-height:calc(100% - 30vh);
+    overflow-y: scroll;
+    padding:30px 0;
+}
+.place_item dt{
+    margin:30px 0 10px 0;
+    border-left: 3px solid #333;
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: 26px;
+}
+.place_item dd {
+    line-height: 1.8;
+    font-size: 20px;
+}
+
+.btn_wrap{
+    text-align: center;
+}
+
+.btn{
+    position: relative;
+    display: inline-block;
+    border-radius: 5px;
+    width:300px;
+    padding:15px;
+    color:#fff;
+    font-size:20px;
+    overflow: hidden;
+    background-color: #9c1a82;
+    z-index: 1;
+}
+.btn + .btn{
+    /* 隣あう2個目のものだけ指定 */
+    margin-top:10px;
+}
+
+.btn:before {
+    /* btnの裏にある */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    transform-origin: right top;
+    /* transform-originは中心点を決めるプロパティ */
+    transform: scale(0, 1);
+    /* X方向、Y方向の拡大 */
+    transition: transform .5s;
+    background-color: #80176b;
+    z-index: -1;
+}
+.btn:hover:before {
+    transform-origin: left top;
+    transform: scale(1, 1);
+    transition: transform .5s;
+    /* ホバーすると左から横に出てくる */
+}
+.btn_arrow{
+    position: relative;
+}
+.btn_arrow:after {
+    /* >を作る */
+    content: "";
+    position: absolute;
+    right: 7%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #fff;
+    -webkit-transform: rotate(45deg) translateY(-50%);
+    transform: rotate(45deg) translateY(-50%);
+    transition: all .5s;
+}
+.btn:hover:after{
+    right: 4%;
+    /* ホバーすると＞が少し右にずれる */
+}
+/* ロード中のやつ */
+.loader-wrap {
+    /* 全画面白で0.4sで動く最前面 */
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    z-index: 10;
+    animation: fadeOut 0.4s linear 0.4s 1 forwards;
+}
+.loader{
+    /* グルグル動くサークルを中央へ */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100px;
+    transform: translate(-50%, -50%);
+}
+.circle-1 {
+    /* 一番外側の円 */
+    margin: 0 auto;
+    width: 100px;
+    height: 50px; 
+    border-radius: 100px 100px 0 0;
+    border-top: 2px solid #c026df;
+    border-left: 2px solid #c026df;
+    border-right: 2px solid #c026df;
+    animation: 2s loader linear infinite;
+    transform-origin: 50% 100%;
+}
+.circle-2{
+    /* 真ん中の円 */
+    width: 80px;
+    height: 40px;
+    margin: 50px auto;
+    border-radius: 0 0 80px 80px;
+    border-bottom: 2px solid #c026e0;
+    border-left: 2px solid #c026e0;
+    border-right: 2px solid #c026e0;
+    animation: 2s loader-reverse linear infinite;
+    transform-origin: 50% 0%;
+}
+
+.circle-3{
+    /* 一番中の円 */
+    width: 60px;
+    height: 30px;
+    margin: 50px auto;
+    border-radius: 0 0 80px 80px;
+    border-bottom: 2px solid #c026e0;
+    border-left: 2px solid #c026e0;
+    border-right: 2px solid #c026e0;
+    animation: 1s loader linear infinite;
+    transform-origin: 50% 0%;
+}
+.pc-on{display: block;}
+.sp-on{display: none;}
+
+
+/* スマホ対応 */
+@media screen and (max-width:768px){
+
+    .pc-on{display: none;}
+    .sp-on{display: block;}
+
+    .contents{
+        display: block;
+    }
+    /* サイドバーnavを中央揃え */
+    .nav{
+        height: 30px;
+        width: 100%;
+        top:45%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        overflow: scroll;
+    }
+    
+    .nav a{
+        /* navのaは全て重ねている状態j-Queryで実装する */
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        opacity: 0;
+        /* 透過している状態 */
+        transition: all 0.4s linear 0s;
+        display: block;
+        z-index: -1;
+        /* 影にヒソます */
+        margin-bottom: 0;
+    }
+    .nav a:after{
+        /* スマホ版だけ */
+        /* 青い下線を引く */
+        position: absolute;
+        content: "";
+        left: 0;
+        bottom: -3px;
+        width: 0;
+        height: 2px;
+        background: #4972fa;
+        display: block;
+        transition: all 0.2s linear 0.4s;
+    }
+    .nav a.is-active{
+        opacity:1;
+        z-index:10;
+        /* activeになったら前に出てくる */
+        /* 最初はスイス */
+        /* a.is-active タグとクラスにスペース不要なの注意 */
+    }
+    .nav a.is-active:after{
+        width: 100%;
+    }
+    .main{
+        margin-left: 0;
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        padding-bottom: 50px;
+    }
+     /* サイドバーの大きさを100％にして中央揃え */
+    .sideber{
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+    }
+    .thumbnail{
+        display: flex;
+        width: max-content;
+        /* max-contentは中身に合わせて最大化する */
+        /* コンテンツを横並び */
+    }
+    .thumbnail li{
+        width: 100vw;
+        height: 100vh;
+    }
+    /* スマホ版の矢印 */
+    [data-slide]{
+        position: absolute;
+        z-index: 10;
+        top: 45%;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 30px;
+    }
+    [data-slide="prev"]{
+        left: 10px;
+        display: none;
+    }
+    [data-slide="next"]{
+        right: 10px;
+    }
+    /* メイン */
+    /* placeのセクションクラス */
+    .place{
+        display: block;
+        padding: 0;
+        height:auto;
+    }
+    .place_img{
+        width: auto;
+        height:300px;
+    }
+    .place_info{
+        width: auto;
+    }
+    #page-index{
+        height: 100vh;
+        overflow: hidden;
+    }
+    #page-index .sns-link{
+        bottom:18vh;
+    }
+    #page-place .main{
+        margin-top:90px;
+    }
+    /* place */
+    #page-place .sideber{
+        background-color: #fff;
+        height:45px;
+        padding-top:0;
+    }
+    #page-place .site-name{
+        position: absolute;
+        left:15px;
+        top:47%;
+        transform: translateY(-50%);
+        z-index: 20;
+    }
+    #page-place .site-name a{
+        font-size:24px;
+    }
+    #page-place .logo{
+        display: none;
+    }
+    /* SNSリンクを右上に */
+    #page-place .sns-link {
+        left: calc(100% - 15px);
+        bottom: 50%;
+        /* bottom指定でなぜ上にいくのか不明
+        top25%でもうまくいく */
+        transform: translate(-100%, 50%);
+        display: flex;
+    }
+    
+    #page-place .nav{
+        top:45px;
+        left: 0;
+        display: flex;
+        /* aタグを横並び */
+        justify-content: space-between;
+        transform: translateX(0);
+        height: 45px;
+        line-height: 45px;
+        background-color: #f3f3f3;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 1px 1px 2px #ccc inset;
+        overflow-y: hidden;
+    }
+    #page-place .nav a {
+        position: relative;
+        left: 0;
+        opacity: 1;
+        padding: 0 20px;
+        font-size: 18px;
+        color: #333;
+        transform: translateX(0);
+    }
+    
+}
